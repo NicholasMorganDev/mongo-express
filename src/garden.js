@@ -25,12 +25,10 @@ export async function addPlant (req, res) {
 
 export async function editPlant (req, res) {
   try {
-    const dataBody = req.body;
+    const returnOption = {returnNewDocument: true};
     const docId = {'_id': new ObjectId (req.params.docId)}; 
-    await plantCollection.findOneAndUpdate(
-      {'_id': docId},
-      {$set: { dataBody }}
-    )
+    const updatePlant = {$set: req.body};
+    await plantCollection.findOneAndUpdate(docId, updatePlant, returnOption)
   } catch (error) {
     res.status(500).send(error)
   } finally {
